@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.macrosoft.starterjavaspringbootfull.model.Student;
 import com.macrosoft.starterjavaspringbootfull.repository.StudentRepository;
 
+/**
+ * Contrôleur Spring gérant les requêtes liées aux étudiants de l'école.
+ */
 @Controller
 public class StudentController {
 
