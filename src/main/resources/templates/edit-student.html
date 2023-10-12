@@ -53,10 +53,12 @@
             <div class="form-group">
                 <label for="name">Nom de l'étudiant :</label>
                 <input type="text" class="form-control" id="name" name="name" th:value="${student.name}" required>
+                <span th:if="${#fields.hasErrors('student.name')}" th:errors="*{student.name}" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="grade">Niveau :</label>
                 <input type="text" class="form-control" id="grade" name="grade" th:value="${student.grade}" required>
+                <span th:if="${#fields.hasErrors('student.grade')}" th:errors="*{student.grade}" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
         </form>
