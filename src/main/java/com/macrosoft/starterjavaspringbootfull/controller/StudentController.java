@@ -42,6 +42,12 @@ public class StudentController {
         studentRepository.deleteById(id);
         return "redirect:/";
     }
+    
+    
+    @GetMapping("/displayaddformstudents")
+    public String displayaddformStudents(Model model) {
+        return "students";
+    }
 
     /**
      * Gère la requête POST pour ajouter un nouvel étudiant à la base de données.
