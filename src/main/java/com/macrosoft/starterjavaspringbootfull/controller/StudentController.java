@@ -46,7 +46,7 @@ public class StudentController {
     
     @GetMapping("/displayaddformstudents")
     public String displayaddformStudents(Model model) {
-        return "students";
+        return "addform-student";
     }
 
     /**
