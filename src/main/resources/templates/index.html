@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Portail de l'École</title>
+    <!-- Liens Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Liens Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Styles personnalisés */
+        body {
+            background-color: #f8f9fa; /* Couleur de fond gris clair */
+        }
+        .navbar {
+            background-color: #007bff; /* Couleur de fond bleue pour la barre de navigation */
+        }
+        .container {
+            background-color: #ffffff; /* Couleur de fond blanc pour le contenu principal */
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .success-message {
+            color: #28a745; /* Couleur verte pour les messages de succès */
+        }
+    </style>
+</head>
+<body>
+    <!-- Barre de navigation Bootstrap -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand text-white" href="#">Portail de l'École</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/add-student">Ajouter Étudiant</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Formulaire d'ajout d'un étudiant -->
+        <form action="/add-student" method="post">
+            <div class="form-group">
+                <label for="name">Nom de l'étudiant :</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="grade">Niveau :</label>
+                <input type="text" class="form-control" id="grade" name="grade" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Ajouter Étudiant</button>
+        </form>
+        
+        
+     	<!-- Message de succès (affiché uniquement si l'attribut successMessage est présent dans le modèle) -->
+		<div th:if="${successMessage}" class="alert alert-success mt-4" role="alert">
+   			 <i class="fas fa-check-circle"></i> Étudiant ajouté avec succès!
+		</div>
+
+        <!-- Tableau pour lister les étudiants -->
+        <h2 class="mt-4">Liste des Étudiants</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Niveau</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="student : ${students}">
+                    <td th:text="${student.name}"></td>
+                    <td th:text="${student.grade}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Liens Bootstrap JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
