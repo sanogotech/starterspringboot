@@ -63,22 +63,54 @@
    			 <i class="fas fa-check-circle"></i> Étudiant ajouté avec succès!
 		</div>
 
-        <!-- Tableau pour lister les étudiants -->
-        <h2 class="mt-4">Liste des Étudiants</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Niveau</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="student : ${students}">
-                    <td th:text="${student.name}"></td>
-                    <td th:text="${student.grade}"></td>
-                </tr>
-            </tbody>
-        </table>
+       <!-- Tableau pour lister les étudiants -->
+    <h2 class="mt-4">Liste des Étudiants</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Niveau</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.name}"></td>
+                <td th:text="${student.grade}"></td>
+                <td>
+                    <a th:href="@{/edit-student/{id}(id=${student.id})}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-edit"></i> Éditer
+                    </a>
+                    <a th:href="@{/delete-student/{id}(id=${student.id})}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i> Supprimer
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Affichage de la pagination -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" th:class="${students.first}? 'disabled' : ''">
+                <a class="page-link" th:href="@{/(page=0)}">First</a>
+            </li>
+            <li class="page-item" th:class="${students.previousPageable}? '' : 'disabled'">
+                <a class="page-link" th:href="@{/(page=${students.number} - 1)}">Previous</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, students.totalPages - 1)}" th:class="${students.number == i}? 'active' : ''">
+                <a class="page-link" th:href="@{/(page=${i})}" th:text="${i + 1}"></a>
+            </li>
+            <li class="page-item" th:class="${students.nextPageable}? '' : 'disabled'">
+                <a class="page-link" th:href="@{/(page=${students.number} + 1)}">Next</a>
+            </li>
+            <li class="page-item" th:class="${students.last}? 'disabled' : ''">
+                <a class="page-link" th:href="@{/(page=${students.totalPages - 1})}">Last</a>
+            </li>
+        </ul>
+    </nav>
+        
+        
     </div>
 
     <!-- Liens Bootstrap JavaScript -->
