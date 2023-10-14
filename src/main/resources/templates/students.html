@@ -30,22 +30,25 @@
     </nav>
 
   <div class="container mt-4">
-        <h2>Modifier Étudiant</h2>
-       <!--   <form action="/update-student/${student.id}" method="post">-->
-   
-		<form th:action="@{'/update-student/' + ${student.id}}" th:object="${studentForm}" method="post">
-		    <div class="form-group">
-		        <label for="name">Nom de l'étudiant :</label>
-		        <input type="text" class="form-control" id="name" th:field="*{name}" required />
-		         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
-		    </div>
-		    <div class="form-group">
-		        <label for="grade">Niveau :</label>
-		        <input type="text" class="form-control" id="grade" th:field="*{grade}" required />
-		         <span th:if="${#fields.hasErrors('grade')}" th:errors="*{grade}" class="text-danger"></span>
-		    </div>
-		    <button type="submit" class="btn btn-primary">Mettre à jour Étudiant</button>
-		</form>
+     
+     
+      <!-- Affichez votre tableau de résultats d'étudiants -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Utilisez Thymeleaf pour itérer à travers la liste des étudiants -->
+            <tr th:each="student : ${students}">
+                <td th:text="${student.name}"></td>
+                <td th:text="${student.grade}"></td>
+            </tr>
+        </tbody>
+    </table>
+     
         
     </div>
 

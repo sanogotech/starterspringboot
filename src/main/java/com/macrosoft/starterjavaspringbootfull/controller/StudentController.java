@@ -1,5 +1,6 @@
 package com.macrosoft.starterjavaspringbootfull.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.macrosoft.starterjavaspringbootfull.form.StudentFormRequest;
 import com.macrosoft.starterjavaspringbootfull.model.Student;
@@ -28,6 +29,14 @@ public class StudentController {
     public String listStudents(Model model) {
         model.addAttribute("students", studentRepository.findAll());
         return "students";
+    }
+    
+    
+    @GetMapping("/search")
+    public String search(@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword, Model model) {
+        List<Student> students = studentRepository.findByNameContainingIgnoreCase(keyword);
+        model.addAttribute("students", students);
+        return "students"; // Ou le nom de votre template Thymeleaf pour afficher les résultats de la recherche
     }
 
     @GetMapping("/edit-student/{id}")
