@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Etudiants</title>
+    <title>Cours</title>
     <!-- Liens Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Liens Font Awesome pour les icônes -->
@@ -42,23 +42,7 @@
   <div class="container mt-4">
      
      
-      <!-- Affichez votre tableau de résultats d'étudiants -->
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Grade</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Utilisez Thymeleaf pour itérer à travers la liste des étudiants -->
-            <tr th:each="student : ${students}">
-                <td th:text="${student.name}"></td>
-                <td th:text="${student.grade}"></td>
-            </tr>
-        </tbody>
-    </table>
-     
+		<h1>Cours </h1>
         
     </div>
 
