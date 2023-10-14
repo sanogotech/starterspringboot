@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.macrosoft.starterjavaspringbootfull.form.StudentFormRequest;
 import com.macrosoft.starterjavaspringbootfull.model.Student;
 import com.macrosoft.starterjavaspringbootfull.repository.StudentRepository;
 
@@ -35,6 +36,8 @@ public class SchoolController {
 
         Page<Student> studentsPage = studentRepository.findByNameContainingIgnoreCase(keyword, PageRequest.of(page, size, Sort.by(sort)));
         model.addAttribute("students", studentsPage);
+        StudentFormRequest studentForm = new StudentFormRequest();
+        model.addAttribute("studentForm", studentForm);
         return "index";
     }
     

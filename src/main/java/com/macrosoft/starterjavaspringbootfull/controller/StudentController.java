@@ -9,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.macrosoft.starterjavaspringbootfull.form.StudentFormRequest;
 import com.macrosoft.starterjavaspringbootfull.model.Student;
 import com.macrosoft.starterjavaspringbootfull.repository.StudentRepository;
 
@@ -30,8 +32,16 @@ public class StudentController {
 
     @GetMapping("/edit-student/{id}")
     public String editStudent(@PathVariable Long id, Model model) {
+   
+        
         Optional<Student> studentOptional = studentRepository.findById(id);
-        studentOptional.ifPresent(student -> model.addAttribute("student", student));
+        studentOptional.ifPresent(student -> {
+            StudentFormRequest studentForm = new StudentFormRequest();
+            studentForm.setName(student.getName());
+            studentForm.setGrade(student.getGrade());
+            model.addAttribute("student", student);
+            model.addAttribute("studentForm", studentForm);
+        });
         return "edit-student";
     }
 
@@ -43,19 +53,21 @@ public class StudentController {
 
     @GetMapping("/displayaddformstudents")
     public String displayaddformStudents(Model model) {
-        model.addAttribute("student", new Student()); // Ajoutez un nouvel objet Student au modèle
+    	 StudentFormRequest studentForm = new StudentFormRequest();
+         model.addAttribute("studentForm", studentForm);// Ajoutez un nouvel objet Student au modèle
         return "addform-student";
     }
 
     @PostMapping("/add-student")
-    public String addStudent(@RequestBody @Valid  String name, @RequestBody @Valid  String grade,  Model model,BindingResult bindingResult) {
+    public String addStudent(@ModelAttribute("studentForm") @Valid StudentFormRequest studentForm,
+                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "addform-student";
         }
 
         Student student = new Student();
-        student.setName(name);
-        student.setGrade(grade);
+        student.setName(studentForm.getName());
+        student.setGrade(studentForm.getGrade());
 
         studentRepository.save(student);
 
@@ -64,17 +76,19 @@ public class StudentController {
         return "redirect:/";
     }
 
+    
     @PostMapping("/update-student/{id}")
-    public String updateStudent(@PathVariable Long id, @RequestBody @Valid String name, @RequestBody @Valid  String grade, Model model,BindingResult bindingResult) {
+    public String updateStudent(@PathVariable Long id, @Valid @ModelAttribute("studentForm") StudentFormRequest studentForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            // Gérer les erreurs de validation
             return "edit-student";
         }
 
         Optional<Student> studentOptional = studentRepository.findById(id);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
-            student.setName(name);
-            student.setGrade(grade);
+            student.setName(studentForm.getName());
+            student.setGrade(studentForm.getGrade());
             studentRepository.save(student);
         }
 

@@ -30,6 +30,13 @@ spring.h2.console.path=/h2-console
 logging.level.org.springframework.web=DEBUG
 ```
 
+## Difference between @RequestParam vs @RequestBody
+
+* Get :  @RequestParam
+
+* Post + @Valid :  @RequestBody
+
+https://tedblob.com/requestbody-vs-requestparam/
 
 
 ## Exécuter l'Application
