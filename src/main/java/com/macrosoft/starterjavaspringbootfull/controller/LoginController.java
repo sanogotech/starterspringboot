@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-    @GetMapping("/login")
+    @GetMapping("/loginecole")
     public String login() {
-        return "login";
+        return "loginecole";
     }
     
-    @PostMapping("/login")
+    @PostMapping("/loginecole")
     public String performLogin(@RequestParam String username, @RequestParam String password) {
         // Logique d'authentification ici (par exemple, utiliser Spring Security)
         // Rediriger vers la page d'accueil si l'authentification réussit, sinon vers la page de connexion avec un message d'erreur
         // return "redirect:/home"; // Redirige vers la page d'accueil après l'authentification réussie
-        // return "redirect:/login?error=true"; // Redirige vers la page de connexion avec un message d'erreur
-        return "redirect:/login?logout=true"; // Redirige vers la page de connexion avec un message de déconnexion
+        // return "redirect:/loginecole?error=true"; // Redirige vers la page de connexion avec un message d'erreur
+        return "redirect:/loginecole?logout=true"; // Redirige vers la page de connexion avec un message de déconnexion
     }
 }
