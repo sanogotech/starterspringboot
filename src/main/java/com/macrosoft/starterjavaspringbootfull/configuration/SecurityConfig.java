@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 
 import com.macrosoft.starterjavaspringbootfull.service.CustomUserDetailsService;
 
@@ -46,16 +47,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-				.antMatchers("/","/login*/**", "/h2-console/**/**","/css/**","/h2-console/icons/**", "/images/**", "/js/**").permitAll()
+				.antMatchers("/", "/h2-console/**/**").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN") // Exige le rôle ADMIN pour accéder à /admin
                 .anyRequest().authenticated()
 				.and()
                 .headers().frameOptions().disable() // Désactiver la protection contre l'affichage dans un cadre pour H2 Console;
                 .and()
-            .formLogin()
-                .loginPage("/loginecole")
+            .formLogin()	
+				 .loginPage("/loginecole")
+				 .loginProcessingUrl("/loginformecole")
                 .defaultSuccessUrl("/indexecole")
-                .failureUrl("/loginecole?error=true")
+               .failureUrl("/loginecole?error=true")
+               .permitAll()
                 .and()
             .logout()
                 .logoutSuccessUrl("/loginecole?logout=true")
@@ -68,4 +71,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+	
+	  @Override
+  public void configure(WebSecurity web) {
+    web.ignoring()
+        .antMatchers("/resources/**", "/static/**","/sw.js/**","/css/**","/js/**","/icons/**","/images/**");
+  }
 }

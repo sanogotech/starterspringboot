@@ -3,6 +3,11 @@
 
 Ce document explique le processus d'authentification d'un utilisateur dans une application Spring Boot sécurisée à l'aide de Spring Security.
 
+
+## Docs
+
+- https://howtodoinjava.com/spring-security/login-form-example/
+
 ## Diagramme de Séquence
 
 ```mermaid
