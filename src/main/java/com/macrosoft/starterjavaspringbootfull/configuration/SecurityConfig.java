@@ -19,22 +19,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
+/*
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-   
     
-    /*
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+	}
+   
+ */   
+    
+	
+   @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
             .inMemoryAuthentication()
                 .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN")
                 .and()
                 .withUser("user").password(passwordEncoder().encode("userPass")).roles("USER");
     }
-  */
+ 
     
     
    
@@ -43,14 +46,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-				.antMatchers("/","/login*/**", "/h2-console/**","/css/**", "/images/**", "/js/**").permitAll()
+				.antMatchers("/","/login*/**", "/h2-console/**/**","/css/**","/h2-console/icons/**", "/images/**", "/js/**").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN") // Exige le rôle ADMIN pour accéder à /admin
                 .anyRequest().authenticated()
 				.and()
                 .headers().frameOptions().disable() // Désactiver la protection contre l'affichage dans un cadre pour H2 Console;
                 .and()
-				.http.csrf().disable()
-				.and()
             .formLogin()
                 .loginPage("/loginecole")
                 .defaultSuccessUrl("/indexecole")
