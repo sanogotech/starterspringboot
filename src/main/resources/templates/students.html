@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Etudiants</title>
+    <title>Ajout Etudiant</title>
     <!-- Liens Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Liens Font Awesome pour les icônes -->
@@ -11,7 +11,7 @@
 </head>
 <body>
     <!-- Barre de navigation Bootstrap -->
-<nav class="navbar navbar-expand-lg navbar-custom">
+  <nav class="navbar navbar-expand-lg navbar-custom">
     <a class="navbar-brand text-primary" href="#"><i class="fas fa-graduation-cap mr-2"></i> Portail de l'École</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,27 +39,87 @@
 </nav>
 
 
+
   <div class="container mt-4">
-     
-     
-      <!-- Affichez votre tableau de résultats d'étudiants -->
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Grade</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Utilisez Thymeleaf pour itérer à travers la liste des étudiants -->
-            <tr th:each="student : ${students}">
-                <td th:text="${student.name}"></td>
-                <td th:text="${student.grade}"></td>
-            </tr>
-        </tbody>
-    </table>
-     
+        <!-- Formulaire d'ajout d'un étudiant -->
+        <form th:action="@{/add-student}" th:object="${studentForm}" method="post">
+            
+            <div class="form-group">
+			    <label for="name"><i class="fas fa-user"></i> Nom de l'étudiant :</label>
+			    <input type="text" class="form-control" id="name" th:field="*{name}" required>
+			    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+			</div>
+			            
+           <div class="form-group">
+			    <label for="grade"><i class="fas fa-graduation-cap"></i> Niveau :</label>
+			    <input type="text" class="form-control" id="grade" th:field="*{grade}" required>
+			    <span th:if="${#fields.hasErrors('grade')}" th:errors="*{grade}" class="text-danger"></span>
+			</div>
+          
+            <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i> Ajouter Étudiant</button>
         
+        </form>
+        
+        <!-- Message de succès (affiché uniquement si l'attribut successMessage est présent dans le modèle) -->
+        <div th:if="${successMessage}" class="alert alert-success mt-4" role="alert">
+            <i class="fas fa-check-circle mr-2"></i> Étudiant ajouté avec succès!
+        </div>
+        
+        <!-- Formulaire de recherche -->
+        <form th:action="@{/search}" method="get" class="mt-4">
+            <div class="form-group">
+                <label for="searchTerm"><i class="fas fa-search mr-1"></i> Rechercher :</label>
+                <input type="text" class="form-control" id="searchTerm" name="keyword" />
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search mr-1"></i> Rechercher</button>
+        </form>
+
+        <!-- Tableau pour lister les étudiants -->
+        <h2 class="mt-4">Liste des Étudiants</h2>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Niveau</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="student : ${students}">
+                    <td th:text="${student.name}"></td>
+                    <td th:text="${student.grade}"></td>
+                    <td>
+                        <a th:href="@{/edit-student/{id}(id=${student.id})}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-edit mr-1"></i> Éditer
+                        </a>
+                        <a th:href="@{/delete-student/{id}(id=${student.id})}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash mr-1"></i> Supprimer
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Affichage de la pagination -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:class="${students.first}? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/(page=0)}">First</a>
+                </li>
+                <li class="page-item" th:class="${students.previousPageable}? '' : 'disabled'">
+                    <a class="page-link" th:href="@{/(page=${students.number} - 1)}">Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, students.totalPages - 1)}" th:class="${students.number == i}? 'active' : 'page-item'">
+                    <a class="page-link" th:href="@{/(page=${i})}" th:text="${i + 1}"></a>
+                </li>
+                <li class="page-item" th:class="${students.nextPageable}? '' : 'disabled'">
+                    <a class="page-link" th:href="@{/(page=${students.number} + 1)}">Next</a>
+                </li>
+                <li class="page-item" th:class="${students.last}? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/(page=${students.totalPages - 1})}">Last</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 
     <!-- Liens Bootstrap JavaScript -->

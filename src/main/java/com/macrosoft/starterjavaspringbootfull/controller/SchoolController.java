@@ -27,7 +27,14 @@ public class SchoolController {
     private StudentRepository studentRepository;
 
  
-    @GetMapping("/")
+ 
+	@GetMapping("/")
+    public String indexportail() {
+
+        return "indexportail";
+    }
+	
+    @GetMapping("/indexecole")
     public String home(Model model,
                        @RequestParam(defaultValue = "0") int page,
                        @RequestParam(defaultValue = "10") int size,
@@ -38,7 +45,7 @@ public class SchoolController {
         model.addAttribute("students", studentsPage);
         StudentFormRequest studentForm = new StudentFormRequest();
         model.addAttribute("studentForm", studentForm);
-        return "index";
+        return "indexecole";
     }
     
    
